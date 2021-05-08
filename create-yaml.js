@@ -2,6 +2,7 @@
 const fs = require('fs');
 const yaml = require('js-yaml');
 
+// let Javascript object to write in to Yaml file
 let data = {
     title: 'Writing YAML',
     domain: 'stackabuse.com',
@@ -19,5 +20,8 @@ let data = {
     }
 };
 
+// Dump object to yaml content
 let yamlStr = yaml.dump(data);
+
+// Write yaml content to yaml file
 fs.writeFileSync('output.yaml', yamlStr, 'utf8');
