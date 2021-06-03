@@ -1,3 +1,4 @@
+const fs = require('fs');
 const sshRemote = require('./SSHRemoteModule');
 const yamlModule = require('./YamlModule');
 
@@ -23,4 +24,5 @@ async function createFiles(filename, data) {
     yamlModule.createFile(filename);  
   }
   await sshRemote.uploadFile(filename);
+  fs.unlinkSync(filename);
 }
