@@ -1,15 +1,9 @@
 // npm install ssh2
 const Client = require('ssh2').Client;
 const fs = require('fs');
+const config = require('./config.json');
 
 class SSHRemoteModule {
-  connSettings = {
-    host: 'xxx.xxx.xxx.xxx',
-    port: 22,
-    username: 'xxxxxx',
-    password: 'xxxxxx'
-  };
-  remotePath = '/home/ubuntu/JP';
   
   sftp;
   conn;
@@ -21,7 +15,7 @@ class SSHRemoteModule {
   uploadFile = (filename) => {
     return new Promise((resolve, reject) => {
       var readStream = fs.createReadStream(filename);
-      var writeStream = this.sftp.createWriteStream(this.remotePath +"/"+ filename);
+      var writeStream = this.sftp.createWriteStream(config.remotePath +"/"+ filename);
       
       writeStream.on('close', function() {
         console.log('File transferred succesfully : '+ filename);
@@ -44,7 +38,7 @@ class SSHRemoteModule {
   
   isRemoteFile = (filename) => {
     return new Promise((resolve, reject) => {
-      this.sftp.readdir(this.remotePath, function(err, list){
+      this.sftp.readdir(config.remotePath, function(err, list){
         var resFiles = new Object();
         if (err) {
           console.log('Unable to connect to SFTP remote system');
@@ -87,7 +81,7 @@ class SSHRemoteModule {
           }
           resolve({ conn: conn, sftp: sftp });
         });
-      }).connect(this.connSettings);
+      }).connect(config.connSettings);
     });
   }
 }
